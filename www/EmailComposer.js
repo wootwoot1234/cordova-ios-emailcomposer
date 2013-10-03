@@ -1,4 +1,4 @@
-
+var exec = require("cordova/exec");
 /**
   * @static
   *
@@ -6,7 +6,7 @@
   * display the Mail.app new message composer view via the
   * iOS MFMailComposeViewController type in the Message UI framework.
   */
-var EmailComposer = {
+function EmailComposer() {}
   /**
     * Displays the Mail.app composer view using an optional array of arguments for the
     * view such as recipients, subject, body, and attachments.
@@ -75,7 +75,7 @@ var EmailComposer = {
     *   }
     * });
     */
-  show: function show(map) {
+EmailComposer.prototype.show = function show(map) {
     var args,
         onSuccessCallback,
         onErrorCallback;
@@ -91,7 +91,7 @@ var EmailComposer = {
     }
 
     return args;
-  },
+  };
 
  /**
    * @static
@@ -103,7 +103,7 @@ var EmailComposer = {
    * @param {Arguments} args an arguments instance to convert to an EmailMessage instance
    * @returns {object}
    */
-  sanitize: function normalize(map) {
+EmailComposer.prototype.sanitize = function normalize(map) {
     var newMap = {},
         newAttachments = [],
         attachment,
@@ -131,7 +131,7 @@ var EmailComposer = {
           mimeType: attachment.mimeType,
           name: attachment.name,
           data: attachment.data,
-          encoding: EmailComposer.translateEncoding(attachment.encoding),
+          encoding: this.translateEncoding(attachment.encoding),
           filePath: attachment.filePath
         });
       }
@@ -140,7 +140,7 @@ var EmailComposer = {
     }
 
     return newMap;
-  },
+  };
 
  /**
    * @static
@@ -151,7 +151,7 @@ var EmailComposer = {
    * @param a number or string value representing the encoding
    * @returns {number}
    */
-  translateEncoding: function(encoding) {
+EmailComposer.prototype.translateEncoding = function(encoding) {
     var value;
 
     if (!encoding) {
@@ -160,10 +160,10 @@ var EmailComposer = {
 
     if (typeof(encoding) === "number") {
       switch(encoding) {
-        case EmailComposer.EncodingType.Base64:
-        case EmailComposer.EncodingType.ASCII:
-        case EmailComposer.EncodingType.UTF8:
-        case EmailComposer.EncodingType.UTF16:
+        case this.EncodingType.Base64:
+        case this.EncodingType.ASCII:
+        case this.EncodingType.UTF8:
+        case this.EncodingType.UTF16:
           value = encoding;
           break;
         default:
@@ -174,19 +174,19 @@ var EmailComposer = {
     else if (typeof(encoding) === "string") {
       switch(encoding.trim().toLowerCase()) {
         case "base64":
-          value = EmailComposer.EncodingType.Base64;
+          value = this.EncodingType.Base64;
           break;
         case "ascii":
-          value = EmailComposer.EncodingType.ASCII;
+          value = this.EncodingType.ASCII;
           break;
         case "utf-8":
         case "utf8":
-          value = EmailComposer.EncodingType.UTF8;
+          value = this.EncodingType.UTF8;
           break;
         case "utf-16":
         case "utf16":
         case "unicode":
-          value = EmailComposer.EncodingType.UTF16;
+          value = this.EncodingType.UTF16;
           break;
         default:
           value = null;
@@ -195,12 +195,12 @@ var EmailComposer = {
     }
 
     return value;
-   },
+   };
 
   /**
     * An enum of possible return codes passed as the only argument to the EmailMessage#onSucess callback.
     * All values map to the iOS SDK MFMailComposeResult enum values */
-  ComposeResult: Object.freeze({
+EmailComposer.prototype.ComposeResult = Object.freeze({
     /** Per Apple's iOS SDK, "the email message was saved in the user’s Drafts folder." */
     Cancelled: 0,
 
@@ -215,12 +215,12 @@ var EmailComposer = {
 
     /** An unknown MFMailComposeResult was returned */
     Unknown: 4
-  }),
+  });
 
   /**
   * An enum of possible encoding types for window.plugins.emailComposer.EmailAttachment#data.
   * All values except Base64 map to the iOS SDK NSStringEncoding enum values */
-  EncodingType: Object.freeze({
+EmailComposer.prototype.EncodingType = Object.freeze({
     /** A base64 encoded string representation of a memory stream.  Useful for attaching binary files, such as image files */
     Base64: 0,
     
@@ -233,10 +233,8 @@ var EmailComposer = {
     /** A string using ASCII text encoding.  Useful for attaching UTF-16 text files, such as most HTML documents created in memory.
       * Equivalent to Unicode encoding on iOS devices*/
     UTF16: 10
-  })
-};
+  });
 
 // detect if we are wrapped in a cordova.define call
-if (module) {
-  module.exports = EmailComposer;
-}
+
+module.exports = new EmailComposer();

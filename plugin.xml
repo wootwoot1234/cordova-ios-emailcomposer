@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-        id="emailcomposer"
+        id="EmailComposer"
         version="2.0.2">
 
   <name>EmailComposer</name>
@@ -20,19 +20,14 @@
   <license>The MIT License (MIT)</license>
 
   <engines>
-      <engine name="cordova" version=">=2.7.0"/>
+    <engine name="cordova" version=">=2.7.0"/>
   </engines>
 
+  <js-module src="www/EmailComposer.js" name="EmailComposer">
+      <clobbers target="plugins.EmailComposer" />
+  </js-module>
+
   <platform name="ios">
-
-    <!-- optional file needed for backwards compatability with version 1.0 of this plugin -->
-    <asset src="www/EmailComposer-Deprecated.js" target="plugins/EmailComposer-Deprecated.js" />
-    <!-- optional sample implementation of the plugin -->
-    <asset src="www/EmailComposer.html" target="examples/EmailComposer.html" />
-
-    <js-module src="EmailComposer.js" name="EmailComposer">
-      <runs />
-    </js-module>
 
     <!-- Cordova >= 2.7 -->
     <config-file target="config.xml" parent="/*">
