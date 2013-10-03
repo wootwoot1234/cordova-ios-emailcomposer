@@ -36,12 +36,13 @@
       </feature>
     </config-file>
 
-    <framework src="MessageUI.framework" />
-    <framework src="MobileCoreServices.framework" />
 
     <header-file src="src/ios/EmailComposer.h" />
     <source-file src="src/ios/EmailComposer.m" />
     <header-file src="src/ios/NSData+Base64.h" />
     <source-file src="src/ios/NSData+Base64.m" />
+    
+    <framework src="MessageUI.framework" />
+    <framework src="MobileCoreServices.framework" />
   </platform>
 </plugin>

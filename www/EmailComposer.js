@@ -81,7 +81,7 @@ EmailComposer.prototype.show = function show(map) {
         onErrorCallback;
 
     if (map != null) {
-      args = EmailComposer.sanitize(map);
+      args = this.sanitize(map);
       onSuccessCallback = (typeof(map.onSuccess) === "function") ? map.onSuccess : undefined;
       onErrorCallback = (typeof(map.onError) === "function") ? map.onError : undefined;
     }
